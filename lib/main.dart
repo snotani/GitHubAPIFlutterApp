@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.blue,
         accentColor: Colors.blueAccent,
@@ -101,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _submitForm() async {
-    String url = 'http://api.kanye.rest/';
+    String url = 'https://api.github.com/repos/snotani/FridgeBuddy';
     try {
       http.Response response = await http.get(url);
       var myQuote = LanguageInfo.fromJson(jsonDecode(response.body));
