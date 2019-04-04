@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
 class LinguistResults{
-  Widget showResults(String text) {
-    return (text != null) ? new Text('$text') : new CircularProgressIndicator();
+  var resultsData;
+
+  Widget showResults() {
+    return resultsData != null
+        ? Text('$resultsData',
+        style: TextStyle(
+          fontSize: 34.0,
+          height: 1.25,
+        ))
+        : CircularProgressIndicator();
   }
 }
