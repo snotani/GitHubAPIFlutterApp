@@ -33,23 +33,11 @@ class _MyHomePageState extends State<MyHomePage> {
   UserData newUser = new UserData();
   String _language;
 
-  Future<void> _submitForm() async {
-    String url = 'https://api.github.com/repos/' + newUser.username + '/'
-        + newUser.repoName + '/languages';
-    try {
-      http.Response response = await http.get(url);
-      var myQuote = LanguageInfo.fromJson(jsonDecode(response.body));
-      setState(() {
-        _language = myQuote.language;
-      });
-    } catch (e) {}
-  }
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(""),
+        title: new Text("Language Identifier"),
       ),
       body: new SafeArea(
           top: false,
@@ -60,10 +48,12 @@ class _MyHomePageState extends State<MyHomePage> {
               child: new ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 children: <Widget>[
-                  new Text("Enter your GitHub username and repository name below to find out"
-                      "the languages used in your project! "
-                      "(Try it out with this project -> "
-                      "Username: snotani, Repo name: LinguistAPIFLutterApp"),
+                  Container(
+                    child: new Text("Enter your GitHub username and repository name below to find out"
+                        "the languages used in your project! "
+                        "(Try it out with this project -> "
+                        "Username: snotani, Repo name: LinguistAPIFLutterApp"),
+                  ),
                   new TextFormField(
                     decoration: const InputDecoration(
                       icon: const Icon(Icons.person),
@@ -106,5 +96,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ))),
     );
+  }
+
+  Future<void> _submitForm() async {
+    String url = 'https://api.github.com/repos/' + newUser.username + '/'
+        + newUser.repoName + '/languages';
+    try {
+      http.Response response = await http.get(url);
+      var myQuote = LanguageInfo.fromJson(jsonDecode(response.body));
+      setState(() {
+        _language = myQuote.language;
+      });
+    } catch (e) {}
   }
 }
