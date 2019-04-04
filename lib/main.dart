@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -36,8 +35,13 @@ class _MyHomePageState extends State<MyHomePage> {
   final repoController = TextEditingController();
   LinguistResults results = new LinguistResults();
   var resBody;
+  String user;
+  String repo;
+  bool isAvailable = true;
 
   Future _getUserAndRepo(String user, String repo) async {
+    this.user = user;
+    this.repo = repo;
 
     String url = "https://api.github.com/repos/"+user+"/"+repo+"/languages";
     var res = await http.get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
@@ -46,29 +50,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     if(resBody['message'] !=  "Not Found") {
+      isAvailable = true;
       results.resultsData = resBody;
     }
     else{
-      results.resultsData = Row(
-        children: <Widget>[
-          new Text("Ups, looks like you entered the incorrect repo name or"
-              "your repo is private. You can change your repo to public by clicking below: \n"),
-          new InkWell(
-              child: new Text("https://github.com/"+user+"/"+repo+"/settings"),
-              onTap: () async {
-                if (await canLaunch("https://github.com/"+user+"/"+repo+"/settings")) {
-                  await launch("https://github.com/"+user+"/"+repo+"/settings");
-                }
-              },
-          ),
-        ],
-      );
+      isAvailable = false;
     }
-
-    userController.clear();
-    repoController.clear();
+    //userController.clear();
+    //repoController.clear();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       labelText: 'GitHub username',
                     ),
                     controller: userController,
-
-                    //validator: (val) => val.isEmpty ? 'GitHub username is required' : null,
+                    validator: (val) => val.isEmpty ? 'GitHub username is required' : null,
                   ),
                   new TextFormField(
                     decoration: const InputDecoration(
@@ -111,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       labelText: 'GitHub repository name',
                     ),
                     controller: repoController,
-                    //validator: (val) => val.isEmpty ? 'GitHub repo name is required' : null,
+                    validator: (val) => val.isEmpty ? 'GitHub repo name is required' : null,
                   ),
                   new Container(
                       padding: const EdgeInsets.only(left: 40.0, top: 40.0),
@@ -126,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: new Container(
                       child: Align(
                         alignment: Alignment.center,
-                        child: results.showResults(),
+                        child: isAvailable ? results.showResults() : results.unableToGetResults(context, this.user, this.repo)
                       ),
                     ),
                   ),
