@@ -1,39 +1,7 @@
-// To parse this JSON data, do
-//
-//     final post = postFromJson(jsonString);
+class LanguageInfo {
+  final String language;
 
-import 'dart:convert';
-
-Post postFromJson(String str) {
-  final jsonData = json.decode(str);
-  return Post.fromJson(jsonData);
+  LanguageInfo.fromJson(Map<String, dynamic> json)
+      : language = json['Dart'];
 }
 
-String postToJson(Post data) {
-  final dyn = data.toJson();
-  return json.encode(dyn);
-}
-
-class Post {
-  int dart;
-  int objectiveC;
-  int java;
-
-  Post({
-    this.dart,
-    this.objectiveC,
-    this.java,
-  });
-
-  factory Post.fromJson(Map<String, dynamic> json) => new Post(
-    dart: json["Dart"],
-    objectiveC: json["Objective-C"],
-    java: json["Java"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "Dart": dart,
-    "Objective-C": objectiveC,
-    "Java": java,
-  };
-}

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 import 'user_data.dart';
 import 'linguist_data.dart';
 
@@ -11,18 +14,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue,
+        accentColor: Colors.blueAccent,
+        brightness: Brightness.dark,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -30,12 +31,25 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   UserData newUser = new UserData();
+  String _language;
+
+  Future<void> _submitForm() async {
+    String url = 'https://api.github.com/repos/' + newUser.username + '/'
+        + newUser.repoName + '/languages';
+    try {
+      http.Response response = await http.get(url);
+      var myQuote = LanguageInfo.fromJson(jsonDecode(response.body));
+      setState(() {
+        _language = myQuote.language;
+      });
+    } catch (e) {}
+  }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(widget.title),
+        title: new Text(""),
       ),
       body: new SafeArea(
           top: false,
@@ -74,18 +88,23 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: const Text('Check my code!'),
                         onPressed: _submitForm,
                       )),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: new Container(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: _language != null
+                            ? Text('$_language',
+                            style: TextStyle(
+                              fontSize: 34.0,
+                              height: 1.25,
+                            ))
+                            : CircularProgressIndicator(),
+                      ),
+                    ),
+                  ),
                 ],
               ))),
     );
-  }
-
-  void _submitForm() {
-    String url = 'https://api.github.com/repos/' + newUser.username + '/'
-    + newUser.repoName + '/languages';
-
-    Future<Post> getPost() async{
-      final response = await http.get('$url/1');
-      return postFromJson(response.body);
-    }
   }
 }
