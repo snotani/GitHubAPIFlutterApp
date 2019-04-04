@@ -38,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Language Identifier"),
+        centerTitle: true,
       ),
       body: new SafeArea(
           top: false,
@@ -48,12 +49,13 @@ class _MyHomePageState extends State<MyHomePage> {
               child: new ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 children: <Widget>[
-                  Container(
-                    child: new Text("Enter your GitHub username and repository name below to find out"
-                        "the languages used in your project! "
-                        "(Try it out with this project -> "
-                        "Username: snotani, Repo name: LinguistAPIFLutterApp"),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: new Text("Enter your GitHub username and repository name below to find out "
+                          "the languages used in your project! \n\n"
+                          "Try it out with this project details below:\n"
+                          "Username: snotani \nRepo name: LinguistAPIFlutterApp"),
+                    ),
                   new TextFormField(
                     decoration: const InputDecoration(
                       icon: const Icon(Icons.person),
@@ -89,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               fontSize: 34.0,
                               height: 1.25,
                             ))
-                            : CircularProgressIndicator(),
+                            : null,
                       ),
                     ),
                   ),
@@ -99,8 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _submitForm() async {
-    String url = 'https://api.github.com/repos/' + newUser.username + '/'
-        + newUser.repoName + '/languages';
+    String url = 'http://api.kanye.rest/';
     try {
       http.Response response = await http.get(url);
       var myQuote = LanguageInfo.fromJson(jsonDecode(response.body));
