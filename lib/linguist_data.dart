@@ -1,7 +1,7 @@
-class LanguageInfo {
-  final String language;
+import 'package:flutter/material.dart';
 
-  LanguageInfo.fromJson(Map<String, dynamic> json)
-      : language = json['login'];
+class LinguistResults{
+  Widget showResults(String text) {
+    return (text != null) ? new Text('$text') : new CircularProgressIndicator();
+  }
 }
-

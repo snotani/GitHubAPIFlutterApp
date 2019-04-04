@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Language Detector GitHub',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.blue,
@@ -31,24 +31,33 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  UserData newUser = new UserData();
-  String _language;
+  final userController = TextEditingController();
+  final repoController = TextEditingController();
+  //UserData newUser = new UserData();
+  LinguistResults results = new LinguistResults();
   var resBody;
+  var _language;
 
-  Future<void> _getUser() async {
-    String url = "https://api.github.com/users/";
-    //add try catch
+  Future _getUserAndRepo(String user, String repo) async {
+
+    String url = "https://api.github.com/repos/"+user+"/"+repo+"/languages";
     var res = await http.get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
     setState(() {
       resBody = json.decode(res.body);
     });
-    if(resBody['avatar_url'] !=  null) {
-      print(resBody['name']);
-    }
-    else print("Nothing to show");
 
-    print(newUser.username);
+    if(resBody['message'] !=  "Not Found") {
+      //newUser.username = user;
+      //newUser.repoName = repo;
+      _language = resBody;
+    }
+    else{
+      //Not public repo (visit x.com) or incorrect repo name
+    }
+
+    repoController.clear();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -80,36 +89,39 @@ class _MyHomePageState extends State<MyHomePage> {
                       hintText: 'Enter your GitHub username',
                       labelText: 'GitHub username',
                     ),
-                    validator: (val) => val.isEmpty ? 'GitHub username is required' : null,
-                    onSaved: (val) => newUser.username = val,
+                    controller: userController,
+                    //validator: (val) => val.isEmpty ? 'GitHub username is required' : null,
                   ),
                   new TextFormField(
                     decoration: const InputDecoration(
                       icon: const Icon(Icons.folder_open),
-                      hintText: 'Enter your GitHub repository name (case sensitive)',
+                      hintText: 'Enter your GitHub repository name',
                       labelText: 'GitHub repository name',
                     ),
-                    validator: (val) => val.isEmpty ? 'GitHub repo name is required' : null,
-                    onSaved: (val) => newUser.repoName = val,
+                    controller: repoController,
+                    //validator: (val) => val.isEmpty ? 'GitHub repo name is required' : null,
                   ),
                   new Container(
                       padding: const EdgeInsets.only(left: 40.0, top: 20.0),
                       child: new RaisedButton(
                         child: const Text('Check my code!'),
-                        onPressed: (){},
+                        onPressed: () {
+                          _getUserAndRepo(userController.text, repoController.text);
+                          results.showResults(_language);
+                        },
                       )),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: new Container(
                       child: Align(
                         alignment: Alignment.center,
-                        /*child: resBody['avatar_url'] != null
+                        child: _language != null
                             ? Text('$_language',
                             style: TextStyle(
                               fontSize: 34.0,
                               height: 1.25,
                             ))
-                            : null,*/
+                            : CircularProgressIndicator(),
                       ),
                     ),
                   ),
