@@ -12,7 +12,7 @@ class GitHubAPIFlutterApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Code Language and Lines Detector GitHub',
-      //debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.indigo,
         primaryColor: Colors.indigo,
@@ -43,8 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
     this.repo = repo;
 
     String url = "https://api.github.com/repos/"+user+"/"+repo;
-    var resLang = await http.get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
-    var resLangSize = await http.get(Uri.encodeFull(url+"/languages"), headers: {"Accept": "application/json"});
+    var resLang = await http.get(Uri.encodeFull(url));
+    var resLangSize = await http.get(Uri.encodeFull(url+"/languages"));
     setState(() {
       resBody = json.decode(resLang.body);
       resSize = json.decode(resLangSize.body);
