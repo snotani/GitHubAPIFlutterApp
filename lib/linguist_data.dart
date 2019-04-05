@@ -3,14 +3,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 class LinguistResults{
   var resultsData;
+  var resultsSize;
 
-  Widget showResults() {
+  Widget showResults(BuildContext context) {
     return resultsData != null
-        ? Text('$resultsData',
-        style: TextStyle(
-          fontSize: 20.0,
-          height: 1.25,
-        ))
+        ? Text("Languages used: \n$resultsData \n\nLines of Code (estimate): $resultsSize",
+        style: TextStyle(fontSize: MediaQuery.of(context).size.height/50.0),
+        )
         : CircularProgressIndicator();
   }
 

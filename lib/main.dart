@@ -4,9 +4,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'linguist_data.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(LinguistGitHubAPI());
 
-class MyApp extends StatelessWidget {
+class LinguistGitHubAPI extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -35,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final repoController = TextEditingController();
   LinguistResults results = new LinguistResults();
   var resBody;
+  var resBodySize;
   String user;
   String repo;
   bool isAvailable = true;
@@ -43,21 +44,22 @@ class _MyHomePageState extends State<MyHomePage> {
     this.user = user;
     this.repo = repo;
 
-    String url = "https://api.github.com/repos/"+user+"/"+repo+"/languages";
-    var res = await http.get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+    String url = "https://api.github.com/repos/"+user+"/"+repo;
+    var resLang = await http.get(Uri.encodeFull(url+"/languages"), headers: {"Accept": "application/json"});
+    var resSize = await http.get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
     setState(() {
-      resBody = json.decode(res.body);
+      resBody = json.decode(resLang.body);
+      resBodySize = json.decode(resSize.body);
     });
 
     if(resBody['message'] !=  "Not Found") {
       isAvailable = true;
       results.resultsData = resBody;
+      results.resultsSize = resBodySize['size'];
     }
     else{
       isAvailable = false;
     }
-    //userController.clear();
-    //repoController.clear();
   }
 
   @override
@@ -66,14 +68,12 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: new AppBar(
         title: new Text("Language Detector GitHub"),
         centerTitle: true,
-        //leading: new Image.asset('assets/logo.png'),
       ),
       body: new SafeArea(
           top: false,
           bottom: false,
           child: new Form(
               key: _formKey,
-              autovalidate: true,
               child: new ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 children: <Widget>[
@@ -81,13 +81,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: const EdgeInsets.all(20.0),
                     child: new Text("Enter your GitHub username and repository name below to find out "
                         "the languages used in your project! \n\n"
-                        "Try it out with the details of this project below:\n"
-                        "Username: snotani \nRepo name: LinguistAPIFlutterApp"),
+                        "Try it out with the following sample details:\n"
+                        "Username: flutter \nRepo name: flutter"),
                   ),
                   new TextFormField(
                     decoration: const InputDecoration(
                       icon: const Icon(Icons.person),
-                      hintText: 'Enter your GitHub username',
+                      //hintText: 'Enter your GitHub username',
                       labelText: 'GitHub username',
                     ),
                     controller: userController,
@@ -111,11 +111,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         },
                       )),
                   Padding(
-                    padding: const EdgeInsets.all(80.0),
+                    padding: const EdgeInsets.all(60.0),
                     child: new Container(
                       child: Align(
                         alignment: Alignment.center,
-                        child: isAvailable ? results.showResults() : results.unableToGetResults(context, this.user, this.repo)
+                        child: isAvailable ? results.showResults(context) : results.unableToGetResults(context, this.user, this.repo)
                       ),
                     ),
                   ),
