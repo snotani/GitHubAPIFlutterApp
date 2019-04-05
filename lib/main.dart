@@ -4,14 +4,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'linguist_data.dart';
 
-void main() => runApp(LinguistGitHubAPI());
+void main() => runApp(GitHubAPIFlutterApp());
 
-class LinguistGitHubAPI extends StatelessWidget {
+class GitHubAPIFlutterApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Language Detector GitHub',
+      title: 'Code Language and Lines Detector GitHub',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.indigo,
@@ -34,10 +34,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final userController = TextEditingController();
   final repoController = TextEditingController();
   LinguistResults results = new LinguistResults();
-  var resBody;
-  var resSize;
-  String user;
-  String repo;
+  var resBody, resSize;
+  String user, repo;
   bool isAvailable = true;
 
   Future _getUserAndRepo(String user, String repo) async {
@@ -67,8 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Language Detector GitHub"),
-        centerTitle: true,
+        title: new Text("Code Language and Lines Detector GitHub",
+            style: TextStyle(fontSize: MediaQuery.of(context).size.width/20.6)),
       ),
       body: new SafeArea(
           top: false,
@@ -83,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: new Text("Enter your GitHub username and repository name below to find out "
                         "the language and lines of code in your project! \n\n"
                         "Try it out with the following sample details:\n"
-                        "Username: flutter \nRepo name: flutter"),
+                        "Username: snotani \nRepo name: GitHubAPIFlutterApp"),
                   ),
                   new TextFormField(
                     decoration: const InputDecoration(
@@ -91,7 +89,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       labelText: 'GitHub username',
                     ),
                     controller: userController,
-                    validator: (val) => val.isEmpty ? 'GitHub username is required' : null,
                   ),
                   new TextFormField(
                     decoration: const InputDecoration(
@@ -99,7 +96,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       labelText: 'GitHub repository name',
                     ),
                     controller: repoController,
-                    validator: (val) => val.isEmpty ? 'GitHub repo name is required' : null,
                   ),
                   new Container(
                       padding: const EdgeInsets.only(left: 40.0, top: 40.0),
@@ -113,7 +109,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: const EdgeInsets.all(60.0),
                     child: new Container(
                       child: Align(
-                        alignment: Alignment.center,
                         child: isAvailable ? results.showResults(context) : results.unableToGetResults(context, this.user, this.repo)
                       ),
                     ),

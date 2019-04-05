@@ -8,7 +8,7 @@ class LinguistResults{
 
   Widget showResults(BuildContext context) {
     return resultsLang != null
-        ? Text("Language used: $resultsLang ($resultsLangSize Kb) \n\nLines of Code (estimate): $resultsSize",
+        ? Text("Language used: $resultsLang ($resultsLangSize kB) \n\nLines of Code (estimate): $resultsSize",
         style: TextStyle(fontSize: MediaQuery.of(context).size.height/50.0),
         )
         : CircularProgressIndicator();
