@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LinguistResults{
-  var resultsData;
+  var resultsDesc;
+  var resultsLang;
   var resultsSize;
 
   Widget showResults(BuildContext context) {
-    return resultsData != null
-        ? Text("Languages used: \n$resultsData \n\nLines of Code (estimate): $resultsSize",
+    return resultsLang != null
+        ? Text("Description: $resultsDesc \n\nLanguage most used: $resultsLang \n\nLines of Code (estimate): $resultsSize",
         style: TextStyle(fontSize: MediaQuery.of(context).size.height/50.0),
         )
         : CircularProgressIndicator();

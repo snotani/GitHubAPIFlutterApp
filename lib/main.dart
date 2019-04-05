@@ -35,7 +35,6 @@ class _MyHomePageState extends State<MyHomePage> {
   final repoController = TextEditingController();
   LinguistResults results = new LinguistResults();
   var resBody;
-  var resBodySize;
   String user;
   String repo;
   bool isAvailable = true;
@@ -45,17 +44,16 @@ class _MyHomePageState extends State<MyHomePage> {
     this.repo = repo;
 
     String url = "https://api.github.com/repos/"+user+"/"+repo;
-    var resLang = await http.get(Uri.encodeFull(url+"/languages"), headers: {"Accept": "application/json"});
-    var resSize = await http.get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+    var resLang = await http.get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
     setState(() {
       resBody = json.decode(resLang.body);
-      resBodySize = json.decode(resSize.body);
     });
 
     if(resBody['message'] !=  "Not Found") {
       isAvailable = true;
-      results.resultsData = resBody;
-      results.resultsSize = resBodySize['size'];
+      results.resultsDesc = resBody['description'];
+      results.resultsLang = resBody['language'];
+      results.resultsSize = resBody['size'];
     }
     else{
       isAvailable = false;
