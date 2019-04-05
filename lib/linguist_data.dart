@@ -7,11 +7,11 @@ class LinguistResults{
   var resultsSize;
 
   Widget showResults(BuildContext context) {
-    return resultsLang != null
-        ? Text("Language used: $resultsLang ($resultsLangSize kB) \n\nLines of Code (estimate): $resultsSize",
-        style: TextStyle(fontSize: MediaQuery.of(context).size.height/50.0),
-        )
-        : CircularProgressIndicator();
+    return SafeArea(
+      child: resultsLang != null
+          ? Text("Language used: $resultsLang ($resultsLangSize kB) \n\nLines of Code (estimate): $resultsSize")
+          : CircularProgressIndicator(),
+    );
   }
 
   Widget unableToGetResults(BuildContext context, String user, String repo){
