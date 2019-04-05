@@ -14,9 +14,9 @@ class LinguistGitHubAPI extends StatelessWidget {
       title: 'Language Detector GitHub',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.green,
-        primaryColor: Colors.teal[700],
-        accentColor: Colors.tealAccent,
+        primarySwatch: Colors.indigo,
+        primaryColor: Colors.indigo,
+        accentColor: Colors.indigoAccent,
         brightness: Brightness.dark,
       ),
       home: MyHomePage(),
@@ -35,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final repoController = TextEditingController();
   LinguistResults results = new LinguistResults();
   var resBody;
+  var resSize;
   String user;
   String repo;
   bool isAvailable = true;
@@ -45,15 +46,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
     String url = "https://api.github.com/repos/"+user+"/"+repo;
     var resLang = await http.get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+    var resLangSize = await http.get(Uri.encodeFull(url+"/languages"), headers: {"Accept": "application/json"});
     setState(() {
       resBody = json.decode(resLang.body);
+      resSize = json.decode(resLangSize.body);
     });
 
     if(resBody['message'] !=  "Not Found") {
       isAvailable = true;
-      results.resultsDesc = resBody['description'];
       results.resultsLang = resBody['language'];
-      results.resultsSize = resBody['size'];
+      results.resultsLangSize = (resSize['Dart']/1000).toStringAsFixed(2);
+      results.resultsSize = ((resBody['size']/100) * 40).round();
     }
     else{
       isAvailable = false;
@@ -78,14 +81,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   new Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: new Text("Enter your GitHub username and repository name below to find out "
-                        "the languages used in your project! \n\n"
+                        "the language and lines of code in your project! \n\n"
                         "Try it out with the following sample details:\n"
                         "Username: flutter \nRepo name: flutter"),
                   ),
                   new TextFormField(
                     decoration: const InputDecoration(
                       icon: const Icon(Icons.person),
-                      //hintText: 'Enter your GitHub username',
                       labelText: 'GitHub username',
                     ),
                     controller: userController,
@@ -94,7 +96,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   new TextFormField(
                     decoration: const InputDecoration(
                       icon: const Icon(Icons.folder_open),
-                      hintText: 'Enter your GitHub repository name',
                       labelText: 'GitHub repository name',
                     ),
                     controller: repoController,
