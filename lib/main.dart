@@ -7,7 +7,7 @@ import 'linguist_data.dart';
 void main() => runApp(GitHubAPIFlutterApp());
 
 class GitHubAPIFlutterApp extends StatelessWidget {
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,7 +30,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final userController = TextEditingController();
   final repoController = TextEditingController();
   LinguistResults results = new LinguistResults();
@@ -69,10 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
             style: TextStyle(fontSize: MediaQuery.of(context).size.width/20.6)),
       ),
       body: new SafeArea(
-          top: false,
-          bottom: false,
           child: new Form(
-              key: _formKey,
               child: new ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 children: <Widget>[
