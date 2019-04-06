@@ -33,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final userController = TextEditingController();
   final repoController = TextEditingController();
   LinguistResults results = new LinguistResults();
-  var resBody, resSize;
+  Map resBody, resSize;
   String user, repo;
   bool isAvailable = true;
 
@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Code Language and Lines Detector GitHub",
-            style: TextStyle(fontSize: MediaQuery.of(context).size.width/20.6)),
+              style: TextStyle(fontSize: MediaQuery.of(context).size.width/20.6)),
       ),
       body: new SafeArea(
           child: new Form(
