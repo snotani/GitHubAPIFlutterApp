@@ -1,18 +1,15 @@
-# code_language_used_flutter_app
+# Student Life Hacks
 
-A new Flutter application to count percentage of language used in each repository.
+A new Flutter application for Student Life Hacks created for Flutter Create 2019
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
 
-Can create dropdown list for future
+It is designed to be run on an Android platform and the total dart code is of 5112 bytes.
 
-A few resources to get you started if this is your first Flutter project:
+Any suggestions on improvement are welcome! Contact the email at the end of the page.
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
+## License
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+MIT License
+
+Copyright (c) 2019 Sonia Notani - sonianotani.95@gmail.com

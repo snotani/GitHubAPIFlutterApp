@@ -11,7 +11,6 @@ class GitHubAPIFlutterApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Code Language and Lines Detector GitHub',
-      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.indigo,
         primaryColor: Colors.indigo,
@@ -61,8 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Code Language and Lines Detector GitHub",
-              style: TextStyle(fontSize: MediaQuery.of(context).size.width/20.6)),
+        title: new Text("Code Language and Lines Detector GitHub", style: TextStyle(fontSize: MediaQuery.of(context).size.width/20.6)),
       ),
       body: new SafeArea(
           child: new Form(
@@ -94,9 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: const EdgeInsets.only(left: 40.0, top: 40.0),
                       child: new RaisedButton(
                         child: const Text('Check my code!'),
-                        onPressed: () {
-                          _getUserAndRepo(userController.text, repoController.text);
-                        },
+                        onPressed: () {_getUserAndRepo(userController.text, repoController.text);},
                       )),
                   Padding(
                     padding: const EdgeInsets.all(60.0),
