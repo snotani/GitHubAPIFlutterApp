@@ -47,13 +47,11 @@ class _MainState extends State<Main> {
 
     if(resBody['message'] !=  "Not Found") {
       isAvailable = true;
-      results.resultsLang = resBody['language'];
-      results.resultsLangSize = (resSize['Dart']/1000).toStringAsFixed(2);
-      results.resultsSize = ((resBody['size']/100) * 40).round();
+      results.lang = resBody['language'];
+      results.langSize = (resSize['Dart']/1000).toStringAsFixed(2);
+      results.size = ((resBody['size']/100)*40).round();
     }
-    else{
-      isAvailable = false;
-    }
+    else isAvailable = false;
   }
 
   Widget build(BuildContext context) {

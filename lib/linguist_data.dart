@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LinguistResults{
-  var resultsLangSize;
-  var resultsLang;
-  var resultsSize;
+  var langSize;
+  var lang;
+  var size;
 
   Widget showResults(BuildContext context) {
     return SafeArea(
-      child: resultsLang != null
-          ? Text("Language used: $resultsLang ($resultsLangSize kB) \n\nLines of Code (estimate): $resultsSize")
+      child: lang != null
+          ? Text("Language used: $lang ($langSize kB) \n\nLines of Code (estimate): $size")
           : CircularProgressIndicator(),
     );
   }
