@@ -4,10 +4,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'linguist_data.dart';
 
-void main() => runApp(GitHubAPIFlutterApp());
+void main() => runApp(GitHubAPI());
 
-class GitHubAPIFlutterApp extends StatelessWidget {
-
+class GitHubAPI extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Code Language and Lines Detector GitHub',
@@ -17,16 +16,16 @@ class GitHubAPIFlutterApp extends StatelessWidget {
         accentColor: Colors.indigoAccent,
         brightness: Brightness.dark,
       ),
-      home: MyHomePage(),
+      home: Main(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  _MyHomePageState createState() => _MyHomePageState();
+class Main extends StatefulWidget {
+  _MainState createState() => _MainState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MainState extends State<Main> {
   final userController = TextEditingController();
   final repoController = TextEditingController();
   LinguistResults results = new LinguistResults();
@@ -98,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: const EdgeInsets.all(60.0),
                     child: new Container(
                       child: Align(
-                        child: isAvailable ? results.showResults(context) : results.unableToGetResults(context, this.user, this.repo)
+                        child: isAvailable ? results.showResults(context) : results.errorResults(context, this.user, this.repo)
                       ),
                     ),
                   ),

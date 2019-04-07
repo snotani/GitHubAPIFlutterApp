@@ -14,7 +14,7 @@ class LinguistResults{
     );
   }
 
-  Widget unableToGetResults(BuildContext context, String user, String repo){
+  Widget errorResults(BuildContext context, String user, String repo){
     return SafeArea(
       child: Column(
         children: <Widget>[
