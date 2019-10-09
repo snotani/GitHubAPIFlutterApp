@@ -1,6 +1,6 @@
 # Student Life Hacks
 
-A new Flutter application for Code Language and Lines Detector GitHub created for Flutter Create 2019
+A new Flutter application for Code Language and Lines Detector GitHub.
 
 This application is made to show you the language (and it's size in bytes) and the lines of code used
 in your GitHub repository. I came up with this idea because usually in our Software Engineering group projects
@@ -18,4 +18,4 @@ Any suggestions on improvement are welcome! Contact the email at the end of the 
 
 MIT License
 
-Copyright (c) 2019 Sonia Notani - sonianotani.95@gmail.com
+Copyright (c) 2019 Siddharth Notani - s.notani@outlook.com
