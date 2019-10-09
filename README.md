@@ -1,4 +1,4 @@
-# Student Life Hacks
+# GitHub Linguist API Flutter App
 
 A new Flutter application for Code Language and Lines Detector GitHub.
 
